@@ -35,7 +35,6 @@ public class Transfer {
     @Column(name = "Comentarios", length = 100)
     private String comments;
 
-    // Constructors
     public Transfer() {}
 
     public Transfer(Copy copy, Office originOffice,
