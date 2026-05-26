@@ -1,4 +1,4 @@
-package com.ucr.videogame_store.controller;
+package com.ucr.videogame_store.controller.videogame_module;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

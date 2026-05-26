@@ -1,4 +1,4 @@
-package com.ucr.videogame_store.controller;
+package com.ucr.videogame_store.controller.videogame_module;
 
 import java.util.Locale.Category;
 
