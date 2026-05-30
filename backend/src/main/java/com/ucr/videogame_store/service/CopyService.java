@@ -13,8 +13,8 @@ public class CopyService {
     @Autowired
     CopyRepository copyRepository;
 
-    public void createCopy(Copy copy) {
-        copyRepository.createCopyProcedure(copy.getSerialNumber(), copy.getOffice().getNumber(), copy.getCondition());
+    public String createCopy(Copy copy) {
+        return copyRepository.createCopyProcedure(copy.getSerialNumber(), copy.getOffice().getNumber(), copy.getCondition());
     }
 
     public List<Copy> getCopiesByOffice(Integer number) {

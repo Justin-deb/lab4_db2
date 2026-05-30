@@ -18,7 +18,6 @@ public class CategoryService {
     }
 
     public void createCategory(Category category) throws Exception {
-
         categoryRepository.save(category);
 
     }

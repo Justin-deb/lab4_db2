@@ -11,8 +11,9 @@ public class TransferService {
     @Autowired
     TransferRepository transferRepository;
 
-    public void createTransfer(Transfer transfer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createTransfer'");
+    public String createTransfer(Transfer transfer) {
+        return transferRepository.createTransferProcedure(transfer.getCopy().getSerialNumber(),
+                                                            transfer.getDestinationOffice().getNumber(),
+                                                            transfer.getComments());
     }
 }

@@ -13,6 +13,4 @@ import com.ucr.videogame_store.model.Category;
 public interface CategoryRepository extends JpaRepository<Category,Integer> {
     @Procedure(procedureName = "sp_listar_categorias")
     Optional<List<Category>> getAllCategoriesProcedure();
-
-    
 }

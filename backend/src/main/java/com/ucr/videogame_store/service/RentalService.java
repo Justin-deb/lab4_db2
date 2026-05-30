@@ -13,18 +13,22 @@ public class RentalService {
     @Autowired
     RentalRepository rentalRepository;
 
-    public void rentVideogame(Rental rental) {
-        rentalRepository.createRentProcedure(rental.getClient().getId(),
+    public String rentVideogame(Rental rental) {
+        return rentalRepository.createRentProcedure(rental.getClient().getId(),
                                                 rental.getCopy().getVideoGame().getCode(),
                                                 rental.getCopy().getOffice().getNumber(),
                                                 rental.getDays());
     }
 
-    public void returnVideogame(int id,String details) {
-        rentalRepository.returnVideogame(id,details);
+    public String returnVideogame(int id,String details) {
+        return rentalRepository.returnVideogameProcedure(id,details);
+    }
+
+    public List<Rental> getActiveRentals(String id) {
+        return rentalRepository.getActiveRentalsProcedure(id).get();
     }
 
     public List<Rental> getRentHistory(String id) {
-        return rentalRepository.getActiveRentals(id).get();
+        return rentalRepository.getAllRentalsProcedure(id).get();
     }
 }

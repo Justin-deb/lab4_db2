@@ -19,8 +19,11 @@ public interface RentalRepository extends JpaRepository<Rental,Integer> {
                             @Param("p_cantidadDias") int days);
                             
     @Procedure(procedureName = "sp_regresar_videojuego")
-    String returnVideogame(@Param("p_secuenciaAlquiler") int rentId,@Param("p_detalle") String returnDetails);
+    String returnVideogameProcedure(@Param("p_secuenciaAlquiler") int rentId,@Param("p_detalle") String returnDetails);
 
     @Procedure(procedureName = "sp_listar_alquileres_activos_usuario")
-    Optional<List<Rental>> getActiveRentals(@Param("p_cedula") String clientId);
+    Optional<List<Rental>> getActiveRentalsProcedure(@Param("p_cedula") String clientId);
+
+    @Procedure(procedureName = "sp_ver_historico_alquileres")
+    Optional<List<Rental>> getAllRentalsProcedure(@Param("p_cedula") String id);
 }

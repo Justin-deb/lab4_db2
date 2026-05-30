@@ -17,9 +17,8 @@ public class ClientService {
         return clientRepository.getAllClientsProcedure().get();
     }
 
-    public void createClient(Client client) throws Exception {
-
-        clientRepository.createClientProcedure(client.getId(),
+    public String createClient(Client client) throws Exception {
+        return clientRepository.createClientProcedure(client.getId(),
                 client.getName(),
                 client.getLastName(),
                 client.getPhoneNumber(),
