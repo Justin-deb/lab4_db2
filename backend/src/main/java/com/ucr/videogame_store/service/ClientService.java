@@ -27,4 +27,8 @@ public class ClientService {
                 client.getAddress());
 
     }
+
+    public Client getClientById(String id){
+        return clientRepository.getClientByIdProcedure(id).orElseThrow();
+    }
 }

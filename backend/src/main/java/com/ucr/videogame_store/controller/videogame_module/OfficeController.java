@@ -28,7 +28,7 @@ public class OfficeController {
     @PostMapping("/createOffice")
     public ResponseEntity<?> createOffice(@RequestBody Office office) {
         try {
-            officeService.createOffice();
+            officeService.createOffice(office);
             
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {

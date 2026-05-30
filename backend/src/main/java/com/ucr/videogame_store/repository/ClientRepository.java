@@ -22,4 +22,7 @@ public interface ClientRepository extends JpaRepository<Client,String> {
                                  @Param("p_telefono") String phoneNumber,
                                  @Param("p_correo") String email,
                                  @Param("p_direccion") String address);
+
+    @Procedure(procedureName = "sp_consultar_cliente_por_cedula")
+    Optional<Client> getClientByIdProcedure(@Param("p_cedula") String id);
 }
