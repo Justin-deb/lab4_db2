@@ -1,6 +1,7 @@
 package com.ucr.videogame_store.service;
 
-import org.jspecify.annotations.Nullable;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,20 @@ public class VideogameService {
     @Autowired
     VideogameRepository videogameRepository;
 
-    public @Nullable Object getAllVideogames() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllVideogames'");
+    public List<Videogame> getAllVideogames() {
+        return videogameRepository.getAllVideogamesProcedure().get();
     }
 
-    public void createVideogame(Videogame videogame) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createVideogame'");
+    public List<Videogame> getAllVideogamesByOffice(int officeId){
+        return videogameRepository.getVideogamesByOfficeProcedure(officeId).get();
+    }
+
+    public String createVideogame(Videogame videogame) {
+        return videogameRepository.addVideogameProcedure(videogame.getCode(),
+                                                            videogame.getName(),
+                                                            videogame.getDescription(),
+                                                            videogame.getDeveloper(),
+                                                            videogame.getReleaseDate(),
+                                                            videogame.getCategory().getId());
     }
 }

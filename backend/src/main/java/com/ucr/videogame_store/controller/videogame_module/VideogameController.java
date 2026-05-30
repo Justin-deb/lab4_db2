@@ -9,9 +9,11 @@ import com.ucr.videogame_store.model.Videogame;
 import com.ucr.videogame_store.service.VideogameService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -25,6 +27,12 @@ public class VideogameController {
     public ResponseEntity<?> getAllVideogames() {
         return ResponseEntity.status(HttpStatus.OK).body(videogameService.getAllVideogames());
     }
+
+    @GetMapping("/videogamesOffice/{officeId}")
+    public ResponseEntity<?> getAllVideogamesByOffice(@PathVariable String officeId) {
+        return ResponseEntity.status(HttpStatus.OK).body(videogameService.getAllVideogamesByOffice(Integer.parseInt(officeId)));
+    }
+    
 
     @PostMapping("/create")
     public ResponseEntity<?> createVideogame(@RequestBody Videogame videogame) {
