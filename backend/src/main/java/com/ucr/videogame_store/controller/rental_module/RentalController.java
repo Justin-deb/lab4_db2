@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -37,9 +39,9 @@ public class RentalController {
     }
 
     @PutMapping("/return/{id}")
-    public ResponseEntity<?> returnVideogame(@PathVariable String id) {
+    public ResponseEntity<?> returnVideogame(@PathVariable String id,@RequestParam String details) {
         try {
-            rentalService.returnVideogame(id);
+            rentalService.returnVideogame(Integer.parseInt(id),details);
             
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {

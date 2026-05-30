@@ -1,6 +1,7 @@
 package com.ucr.videogame_store.service;
 
-import org.jspecify.annotations.Nullable;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +14,17 @@ public class RentalService {
     RentalRepository rentalRepository;
 
     public void rentVideogame(Rental rental) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'rentVideogame'");
+        rentalRepository.createRentProcedure(rental.getClient().getId(),
+                                                rental.getCopy().getVideoGame().getCode(),
+                                                rental.getCopy().getOffice().getNumber(),
+                                                rental.getDays());
     }
 
-    public void returnVideogame(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'returnVideogame'");
+    public void returnVideogame(int id,String details) {
+        rentalRepository.returnVideogame(id,details);
     }
 
-    public @Nullable Object getRentHistory(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRentHistory'");
+    public List<Rental> getRentHistory(String id) {
+        return rentalRepository.getActiveRentals(id).get();
     }
 }
