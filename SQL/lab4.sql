@@ -6,7 +6,7 @@
 	Justin Estrada Cruz C4E977
 */
 
-CREATE SCHEMA VIDEO_CLUB DEFAULT CHARACTER SET utf8;
+CREATE SCHEMA IF NOT EXISTS VIDEO_CLUB DEFAULT CHARACTER SET utf8;
 
 USE VIDEO_CLUB;
 
@@ -118,11 +118,11 @@ BEGIN
     END;
 
     IF EXISTS (SELECT 1 FROM CLIENTE WHERE Cedula = p_cedula) THEN
-        SET p_mensaje = 'ERROR: Ya existe un cliente registrado con esa cédula.';
+        SET p_mensaje = 'ERROR: Ya existe un cliente registrado con esa cedula.';
     ELSE
         INSERT INTO CLIENTE (Cedula, Nombre, Apellido, Telefono, Correo, Direccion, FechaRegistro)
         VALUES (p_cedula, p_nombre, p_apellido, p_telefono, p_correo, p_direccion, NOW());
-        SET p_mensaje = CONCAT('Cliente creado exitosamente. Cédula: ', p_cedula);
+        SET p_mensaje = CONCAT('Cliente creado exitosamente. Cedula: ', p_cedula);
     END IF;
 END//
 
@@ -179,13 +179,13 @@ BEGIN
     END;
 
     IF EXISTS (SELECT 1 FROM VIDEOJUEGO WHERE Codigo = p_codigo) THEN
-        SET p_mensaje = 'ERROR: Ya existe un videojuego con ese código.';
+        SET p_mensaje = 'ERROR: Ya existe un videojuego con ese codigo.';
     ELSEIF NOT EXISTS (SELECT 1 FROM CATEGORIA WHERE Id = p_idCategoria) THEN
-        SET p_mensaje = 'ERROR: La categoría seleccionada no existe.';
+        SET p_mensaje = 'ERROR: La categoria seleccionada no existe.';
     ELSE
         INSERT INTO VIDEOJUEGO (Codigo, Nombre, Descripcion, Desarrollador, FechaLanzamiento, IdCategoria)
         VALUES (p_codigo, p_nombre, p_descripcion, p_desarrollador, p_fechaLanzamiento, p_idCategoria);
-        SET p_mensaje = CONCAT('Videojuego "', p_nombre, '" creado exitosamente. Código: ', p_codigo);
+        SET p_mensaje = CONCAT('Videojuego "', p_nombre, '" creado exitosamente. Codigo: ', p_codigo);
     END IF;
 END//
 
@@ -362,13 +362,13 @@ BEGIN
     END;
 
     IF NOT EXISTS (SELECT 1 FROM CLIENTE WHERE Cedula = p_cedula) THEN
-        SET p_mensaje = 'ERROR: El cliente con esa cédula no existe.';
+        SET p_mensaje = 'ERROR: El cliente con esa cedula no existe.';
     ELSEIF NOT EXISTS (SELECT 1 FROM VIDEOJUEGO WHERE Codigo = p_codigoVideojuego) THEN
         SET p_mensaje = 'ERROR: El videojuego especificado no existe.';
     ELSEIF NOT EXISTS (SELECT 1 FROM SUCURSAL WHERE Numero = p_numeroSucursal) THEN
         SET p_mensaje = 'ERROR: La sucursal especificada no existe.';
     ELSEIF p_cantidadDias <= 0 THEN
-        SET p_mensaje = 'ERROR: La cantidad de días debe ser mayor a cero.';
+        SET p_mensaje = 'ERROR: La cantidad de dias debe ser mayor a cero.';
     ELSE
         SELECT Consecutivo
         INTO v_consecutivoCopia
@@ -442,7 +442,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         ROLLBACK;
-        SET p_mensaje = 'ERROR: No se pudo registrar la devolución. Se revirtieron los cambios.';
+        SET p_mensaje = 'ERROR: No se pudo registrar la devolucion. Se revirtieron los cambios.';
     END;
 
     SELECT ConsecutivoCopia, FechaPrestamo, CantidadDias
@@ -452,12 +452,12 @@ BEGIN
       AND FechaDevolucion IS NULL;
 
     IF v_consecutivoCopia IS NULL THEN
-        SET p_mensaje = 'ERROR: No se encontró un alquiler activo con esa secuencia.';
+        SET p_mensaje = 'ERROR: No se encontro un alquiler activo con esa secuencia.';
     ELSE
         SET v_diasAtraso = DATEDIFF(NOW(), DATE_ADD(v_fechaPrestamo, INTERVAL v_cantidadDias DAY));
 
         IF v_diasAtraso > 0 THEN
-            SET v_detalleActual = CONCAT('ENTREGADO CON ', v_diasAtraso, ' DÍA(S) DE ATRASO. ',
+            SET v_detalleActual = CONCAT('ENTREGADO CON ', v_diasAtraso, ' DIA(S) DE ATRASO. ',
                                          IFNULL(p_detalle, ''));
             SET v_detalleActual = LEFT(v_detalleActual, 200);
         ELSE
