@@ -60,11 +60,11 @@ public class Copy {
         this.videogame = videoGame;
     }
 
-    public Office getBranch() {
+    public Office getOffice() {
         return office;
     }
 
-    public void setBranch(Office office) {
+    public void setOffice(Office office) {
         this.office = office;
     }
 

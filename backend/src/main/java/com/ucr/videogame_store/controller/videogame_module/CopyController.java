@@ -33,7 +33,7 @@ public class CopyController {
     @PostMapping("/createCopy")
     public ResponseEntity<?> createCopy(@RequestBody Copy copy) {
         try {
-            copyService.createCopy();
+            copyService.createCopy(copy);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
