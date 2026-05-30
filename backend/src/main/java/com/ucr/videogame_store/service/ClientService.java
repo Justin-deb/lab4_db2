@@ -1,6 +1,7 @@
 package com.ucr.videogame_store.service;
 
-import org.jspecify.annotations.Nullable;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,18 @@ public class ClientService {
     @Autowired
     ClientRepository clientRepository;
 
-    public @Nullable Object getAllClients() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllClients'");
+    public List<Client> getAllClients() {
+        return clientRepository.getAllClientsProcedure().get();
     }
 
-    public void createClient(Client client) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createClient'");
+    public void createClient(Client client) throws Exception {
+
+        clientRepository.createClientProcedure(client.getId(),
+                client.getName(),
+                client.getLastName(),
+                client.getPhoneNumber(),
+                client.getEmail(),
+                client.getAddress());
+
     }
 }

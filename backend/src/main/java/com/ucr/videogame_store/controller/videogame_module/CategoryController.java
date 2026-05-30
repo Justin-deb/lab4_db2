@@ -1,12 +1,11 @@
 package com.ucr.videogame_store.controller.videogame_module;
 
-import java.util.Locale.Category;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ucr.videogame_store.model.Category;
 import com.ucr.videogame_store.service.CategoryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
