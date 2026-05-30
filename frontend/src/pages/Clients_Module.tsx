@@ -1,5 +1,5 @@
-import Navbar from "../componets/Navbar";
-import Footer from "../componets/Footer";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 function Clientes() {
   return (
@@ -53,7 +53,7 @@ function Clientes() {
 
               <button
                 type="submit"
-                className="w-full rounded-2xl bg-gradient-to-r from-purple-700 to-purple-500 py-3 text-white font-semibold hover:scale-[1.02] transition"
+                className="w-full rounded-2xl bg-linear-to-r from-purple-700 to-purple-500 py-3 text-white font-semibold hover:scale-[1.02] transition"
               >
                 Crear Cliente
               </button>
