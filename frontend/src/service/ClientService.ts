@@ -15,7 +15,7 @@ export const getAllClients = async (): Promise<Client[]> => {
   const response = await fetch("/server/api/client/allClients");
 
   if (!response.ok) {
-    throw new Error("Unable to get categories: " + response.status);
+    throw new Error("Unable to get clients: " + response.status);
   }
 
   const data: Client[] = await response.json();
@@ -30,6 +30,6 @@ export const createClient = async (client: Client) => {
   });
 
   if (!response.ok) {
-    throw new Error("Unable to create client:" + response.status);
+    throw new Error("Unable to create client:" + response.statusText);
   }
 };

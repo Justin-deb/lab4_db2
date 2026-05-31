@@ -16,7 +16,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <nav className="relative bg-gradient-to-r from-purple-950 via-purple-900 to-purple-800 border-b border-purple-500/30 shadow-lg">
+    <nav className="relative bg-linear-to-r from-purple-950 via-purple-900 to-purple-800 border-b border-purple-500/30 shadow-lg">
       <div className="flex items-center justify-between h-16 px-6">
         {/* LOGO */}
         <h1
@@ -77,7 +77,7 @@ function Navbar() {
             {/* CLIENTES */}
             <button
               onClick={() => {
-                navigate("/clientes");
+                navigate("/clients");
                 set_menu_abierto(false);
               }}
               className="group flex items-center justify-between rounded-2xl border border-purple-400/30 bg-purple-900/40 px-5 py-4 transition-all duration-300 hover:border-purple-300 hover:bg-purple-800/60 hover:scale-[1.02]"
@@ -96,7 +96,8 @@ function Navbar() {
             </button>
 
             {/* VIDEOJUEGOS */}
-            <button className="group flex items-center justify-between rounded-2xl border border-purple-400/30 bg-purple-900/40 px-5 py-4 transition-all duration-300 hover:border-purple-300 hover:bg-purple-800/60 hover:scale-[1.02]">
+            <button className="group flex items-center justify-between rounded-2xl border border-purple-400/30 bg-purple-900/40 px-5 py-4 transition-all duration-300 hover:border-purple-300 hover:bg-purple-800/60 hover:scale-[1.02]"
+            onClick={() =>navigate('/videogames')}>
               <div className="flex items-center gap-4">
                 <div className="rounded-xl bg-white/10 p-3">
                   <Gamepad2 className="text-white w-6 h-6" />

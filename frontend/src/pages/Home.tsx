@@ -1,10 +1,6 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-
 function Home() {
   return (
     <div className="min-h-screen bg-black flex flex-col">
-      <Navbar />
 
       <main className="flex-1 px-6 py-10">
 
@@ -197,8 +193,6 @@ function Home() {
         </section>
 
       </main>
-
-      <Footer />
     </div>
   );
 }

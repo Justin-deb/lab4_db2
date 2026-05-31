@@ -15,8 +15,8 @@ CREATE TABLE CLIENTE (
 	Nombre VARCHAR(20) NOT NULL,
 	Apellido VARCHAR(20) NOT NULL,
 	Telefono CHAR(8) NOT NULL,
-	Correo VARCHAR(30),
-	Direccion VARCHAR(100) NOT NULL,
+	Correo VARCHAR(100),
+	Direccion VARCHAR(255) NOT NULL,
 	FechaRegistro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -107,8 +107,8 @@ CREATE PROCEDURE sp_ingresar_cliente(
     IN p_nombre       VARCHAR(20),
     IN p_apellido     VARCHAR(20),
     IN p_telefono     CHAR(8),
-    IN p_correo       VARCHAR(30),
-    IN p_direccion    VARCHAR(100),
+    IN p_correo       VARCHAR(100),
+    IN p_direccion    VARCHAR(255),
     OUT p_mensaje     VARCHAR(200)
 )
 BEGIN

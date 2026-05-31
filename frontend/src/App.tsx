@@ -1,14 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
-import Clientes from "./pages/Clients_Module";
+import Clients from "./pages/ClientPage";
+import MainLayout from "./layout/MainLayout";
+import VideogamePage from "./pages/VideogamePage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/clientes" element={<Clientes />} />
+        <Route path="/" element={<MainLayout/>}>
+          <Route index element={<Home />} />
+          <Route path="/clients" element={<Clients />} />
+          <Route path="/videogames" element={<VideogamePage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
