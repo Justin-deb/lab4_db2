@@ -38,7 +38,6 @@ public class Videogame {
         this.category = category;
     }
 
-    // Getters and Setters
     public Integer getCode() {
         return code;
     }

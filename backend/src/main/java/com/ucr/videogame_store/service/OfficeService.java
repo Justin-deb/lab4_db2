@@ -13,6 +13,10 @@ public class OfficeService {
     @Autowired
     OfficeRepository officeRepository;
 
+    public Office getOfficeById(Integer id){
+        return officeRepository.findById(id).orElseThrow();
+    }
+
     public List<Office> getAllOffices() {
         return officeRepository.getAllOfficesProcedure().get();
     }

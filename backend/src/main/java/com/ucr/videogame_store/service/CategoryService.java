@@ -17,6 +17,10 @@ public class CategoryService {
         return categoryRepository.getAllCategoriesProcedure().get();
     }
 
+    public Category getCategoryById(Integer id){
+        return categoryRepository.findById(id).orElseThrow();
+    }
+
     public void createCategory(Category category) throws Exception {
         categoryRepository.save(category);
 
