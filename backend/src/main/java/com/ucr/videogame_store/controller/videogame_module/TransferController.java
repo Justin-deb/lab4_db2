@@ -18,7 +18,7 @@ public class TransferController {
     @Autowired
     TransferService transferService;
 
-    @PostMapping("/transfer")
+    @PostMapping("/transferGame")
     public ResponseEntity<?> createTransfer(@RequestBody Transfer transfer) {
         try {
             transferService.createTransfer(transfer);

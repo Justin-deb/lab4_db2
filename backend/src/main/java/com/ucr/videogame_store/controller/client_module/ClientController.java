@@ -21,8 +21,8 @@ public class ClientController {
     @Autowired
     ClientService clientService;
 
-    @GetMapping("/client/{id}")
-    public ResponseEntity<?> getMethodName(@PathVariable String id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getClientById(@PathVariable String id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(clientService.getClientById(id));
         } catch (Exception e) {

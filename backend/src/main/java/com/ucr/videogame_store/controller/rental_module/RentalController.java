@@ -23,6 +23,25 @@ public class RentalController {
     @Autowired
     RentalService rentalService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getRentalByID(@PathVariable String id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(rentalService.getrentalById(Integer.parseInt(id)));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+    
+    @GetMapping("/activeRentals/{id}")
+    public ResponseEntity<?> getActiveRentals(@PathVariable String id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(rentalService.getActiveRentals(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+    
+
     @GetMapping("/rentHistory/{id}")
     public ResponseEntity<?> getRentHistory(@PathVariable String id){
         return ResponseEntity.status(HttpStatus.OK).body(rentalService.getRentHistory(id));
