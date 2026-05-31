@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ucr.videogame_store.model.Office;
 import com.ucr.videogame_store.repository.OfficeRepository;
@@ -17,6 +18,7 @@ public class OfficeService {
         return officeRepository.findById(id).orElseThrow();
     }
 
+    @Transactional
     public List<Office> getAllOffices() {
         return officeRepository.getAllOfficesProcedure().get();
     }

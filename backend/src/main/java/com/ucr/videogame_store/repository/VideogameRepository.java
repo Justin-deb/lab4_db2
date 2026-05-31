@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,6 @@ public interface VideogameRepository extends JpaRepository<Videogame,Integer> {
                                     @Param("p_fechaLanzamiento") LocalDate releaseDate,
                                     @Param("p_idCategoria") int categoryId);
 
-    @Procedure(procedureName = "sp_listar_videojuegos")
+    @Query(value = "CALL sp_listar_videojuegos()", nativeQuery = true)
     Optional<List<Videogame>> getAllVideogamesProcedure();
 }

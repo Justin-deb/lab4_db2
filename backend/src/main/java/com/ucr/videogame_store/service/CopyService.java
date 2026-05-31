@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ucr.videogame_store.dto.CopyDTO;
 import com.ucr.videogame_store.model.Copy;
@@ -23,10 +24,12 @@ public class CopyService {
         return copyRepository.findById(id).orElseThrow();
     }
 
+    @Transactional
     public String createCopy(Copy copy) {
         return copyRepository.createCopyProcedure(copy.getSerialNumber(), copy.getOffice().getNumber(), copy.getCondition());
     }
 
+    @Transactional
     public List<Copy> getCopiesByOffice(Integer number) {
         return copyRepository.getAllCopiesByOfficeProcedure(number).get();
     }

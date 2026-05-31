@@ -10,25 +10,25 @@ import jakarta.persistence.Table;
 @Table(name = "CLIENTE")
 public class Client {
     @Id
-    @Column(nullable = false, name = "Cedula")
+    @Column(name = "Cedula", nullable = false, length = 9)
     private String id;
 
-    @Column(name = "Nombre", nullable = false)
+    @Column(name = "Nombre", nullable = false, length = 20)
     private String name;
 
-    @Column(name = "Apellido", nullable = false)
+    @Column(name = "Apellido", nullable = false, length = 20)
     private String lastName;
 
-    @Column(name = "Telefono", nullable = false)
+    @Column(name = "Telefono", nullable = false, length = 8)
     private String phoneNumber;
 
-    @Column(name = "Correo")
+    @Column(name = "Correo", length = 30)
     private String email;
 
-    @Column(name = "Direccion", nullable = false)
+    @Column(name = "Direccion", nullable = false, length = 100)
     private String address;
 
-    @Column(name = "FechaRegistro", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "FechaRegistro", nullable = false, insertable = false, updatable = false)
     private LocalDateTime dateRegistered;
 
     public Client() {

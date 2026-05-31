@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ucr.videogame_store.dto.RentalDTO;
 import com.ucr.videogame_store.model.Rental;
@@ -23,6 +24,7 @@ public class RentalService {
         return rentalRepository.findById(id).orElseThrow();
     }
 
+    @Transactional
     public String rentVideogame(Rental rental) {
         return rentalRepository.createRentProcedure(rental.getClient().getId(),
                                                 rental.getCopy().getVideoGame().getCode(),
@@ -30,14 +32,17 @@ public class RentalService {
                                                 rental.getDays());
     }
 
+    @Transactional
     public String returnVideogame(int id,String details) {
         return rentalRepository.returnVideogameProcedure(id,details);
     }
 
+    @Transactional
     public List<Rental> getActiveRentals(String id) {
         return rentalRepository.getActiveRentalsProcedure(id).get();
     }
 
+    @Transactional
     public List<Rental> getRentHistory(String id) {
         return rentalRepository.getAllRentalsProcedure(id).get();
     }

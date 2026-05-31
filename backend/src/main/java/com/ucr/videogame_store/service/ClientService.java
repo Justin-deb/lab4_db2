@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ucr.videogame_store.model.Client;
 import com.ucr.videogame_store.repository.ClientRepository;
@@ -13,10 +14,12 @@ public class ClientService {
     @Autowired
     ClientRepository clientRepository;
 
+    @Transactional
     public List<Client> getAllClients() {
         return clientRepository.getAllClientsProcedure().get();
     }
 
+    @Transactional
     public String createClient(Client client) throws Exception {
         return clientRepository.createClientProcedure(client.getId(),
                 client.getName(),
@@ -27,6 +30,7 @@ public class ClientService {
 
     }
 
+    @Transactional
     public Client getClientById(String id){
         return clientRepository.getClientByIdProcedure(id).orElseThrow();
     }

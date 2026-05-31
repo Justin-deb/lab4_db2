@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ucr.videogame_store.dto.TransferDTO;
 import com.ucr.videogame_store.model.Transfer;
@@ -19,6 +20,7 @@ public class TransferService {
     @Autowired
     OfficeService officeService;
 
+    @Transactional
     public String createTransfer(Transfer transfer) {
         return transferRepository.createTransferProcedure(transfer.getCopy().getSerialNumber(),
                                                             transfer.getDestinationOffice().getNumber(),

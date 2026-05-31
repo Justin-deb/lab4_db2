@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ucr.videogame_store.dto.VideogameDTO;
 import com.ucr.videogame_store.model.Videogame;
@@ -17,10 +18,12 @@ public class VideogameService {
     @Autowired
     CategoryService categoryService;
 
+    @Transactional
     public List<Videogame> getAllVideogames() {
         return videogameRepository.getAllVideogamesProcedure().get();
     }
 
+    @Transactional
     public List<Videogame> getAllVideogamesByOffice(int officeId){
         return videogameRepository.getVideogamesByOfficeProcedure(officeId).get();
     }
@@ -29,6 +32,7 @@ public class VideogameService {
         return videogameRepository.findById(id).orElseThrow();
     }
 
+    @Transactional
     public String createVideogame(Videogame videogame) {
         return videogameRepository.addVideogameProcedure(videogame.getCode(),
                                                             videogame.getName(),
