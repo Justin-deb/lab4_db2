@@ -21,17 +21,21 @@ public class CopyService {
     OfficeService officeService;
 
     public Copy getCopyById(Integer id){
-        return copyRepository.findById(id).orElseThrow();
+        return copyRepository.findById(id).orElseThrow(); 
     }
 
     @Transactional
-    public String createCopy(Copy copy) {
+    public String createCopy(CopyDTO copyDto) {
+        Copy copy = new Copy(videogameService.getVideogameById(copyDto.getVideoGameId()),
+                                    officeService.getOfficeById(copyDto.getOfficeId()),
+                                    copyDto.getAvailability(),
+                                    copyDto.getCondition());
         return copyRepository.createCopyProcedure(copy.getSerialNumber(), copy.getOffice().getNumber(), copy.getCondition());
     }
 
     @Transactional
-    public List<Copy> getCopiesByOffice(Integer number) {
-        return copyRepository.getAllCopiesByOfficeProcedure(number).get();
+    public List<CopyDTO> getCopiesByOffice(Integer number) {
+        return copyToDTO(copyRepository.getAllCopiesByOfficeProcedure(number).get());
     }
 
     public List<CopyDTO> copyToDTO(List<Copy> copyList){

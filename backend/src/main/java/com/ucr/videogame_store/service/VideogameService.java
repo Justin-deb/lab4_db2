@@ -19,13 +19,13 @@ public class VideogameService {
     CategoryService categoryService;
 
     @Transactional
-    public List<Videogame> getAllVideogames() {
-        return videogameRepository.getAllVideogamesProcedure().get();
+    public List<VideogameDTO> getAllVideogames() {
+        return videogameToDTO(videogameRepository.getAllVideogamesProcedure().get());
     }
 
     @Transactional
-    public List<Videogame> getAllVideogamesByOffice(int officeId){
-        return videogameRepository.getVideogamesByOfficeProcedure(officeId).get();
+    public List<VideogameDTO> getAllVideogamesByOffice(int officeId){
+        return videogameToDTO(videogameRepository.getVideogamesByOfficeProcedure(officeId).get());
     }
 
     public Videogame getVideogameById(Integer id){
@@ -33,7 +33,13 @@ public class VideogameService {
     }
 
     @Transactional
-    public String createVideogame(Videogame videogame) {
+    public String createVideogame(VideogameDTO videogameDto) {
+        Videogame videogame = new Videogame(videogameDto.getCode(),
+                                videogameDto.getName(),
+                                videogameDto.getDescription(),
+                                videogameDto.getDeveloper(),
+                                videogameDto.getReleaseDate(),
+                                categoryService.getCategoryById(videogameDto.getCategoryId()));
         return videogameRepository.addVideogameProcedure(videogame.getCode(),
                                                             videogame.getName(),
                                                             videogame.getDescription(),

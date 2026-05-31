@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ucr.videogame_store.model.Rental;
+import com.ucr.videogame_store.dto.RentalDTO;
 import com.ucr.videogame_store.service.RentalService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,9 +48,9 @@ public class RentalController {
     }
     
     @PostMapping("/rent")
-    public ResponseEntity<?> rentVideogame(@RequestBody Rental rental) {
+    public ResponseEntity<?> rentVideogame(@RequestBody RentalDTO rentalDto) {
         try {
-            rentalService.rentVideogame(rental);
+            rentalService.rentVideogame(rentalDto);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());

@@ -21,7 +21,11 @@ public class TransferService {
     OfficeService officeService;
 
     @Transactional
-    public String createTransfer(Transfer transfer) {
+    public String createTransfer(TransferDTO transferDto) {
+        Transfer transfer = new Transfer(copyService.getCopyById(transferDto.getCopyId()),
+                                    officeService.getOfficeById(transferDto.getOriginOfficeId()),
+                                    officeService.getOfficeById(transferDto.getDestinationOfficeId()),
+                                    transferDto.getComments());
         return transferRepository.createTransferProcedure(transfer.getCopy().getSerialNumber(),
                                                             transfer.getDestinationOffice().getNumber(),
                                                             transfer.getComments());

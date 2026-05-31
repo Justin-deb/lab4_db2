@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ucr.videogame_store.model.Videogame;
+import com.ucr.videogame_store.dto.VideogameDTO;
 import com.ucr.videogame_store.service.VideogameService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +35,9 @@ public class VideogameController {
     
 
     @PostMapping("/create")
-    public ResponseEntity<?> createVideogame(@RequestBody Videogame videogame) {
+    public ResponseEntity<?> createVideogame(@RequestBody VideogameDTO videogameDto) {
         try {
-            videogameService.createVideogame(videogame);
+            videogameService.createVideogame(videogameDto);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());

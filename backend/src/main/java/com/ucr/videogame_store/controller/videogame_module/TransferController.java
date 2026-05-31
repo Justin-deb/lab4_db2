@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ucr.videogame_store.model.Transfer;
+import com.ucr.videogame_store.dto.TransferDTO;
 import com.ucr.videogame_store.service.TransferService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +19,9 @@ public class TransferController {
     TransferService transferService;
 
     @PostMapping("/transferGame")
-    public ResponseEntity<?> createTransfer(@RequestBody Transfer transfer) {
+    public ResponseEntity<?> createTransfer(@RequestBody TransferDTO transferDto) {
         try {
-            transferService.createTransfer(transfer);
+            transferService.createTransfer(transferDto);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());

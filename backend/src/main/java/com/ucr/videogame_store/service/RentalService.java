@@ -20,12 +20,19 @@ public class RentalService {
     @Autowired
     CopyService copyService;
 
-    public Rental getrentalById(Integer id){
-        return rentalRepository.findById(id).orElseThrow();
+    public RentalDTO getrentalById(Integer id){
+        Rental r = rentalRepository.findById(id).orElseThrow();
+        RentalDTO rentalDto = new RentalDTO(r.getClient().getId(),
+                                r.getCopy().getSerialNumber(),
+                                r.getDays());
+        return rentalDto;
     }
 
     @Transactional
-    public String rentVideogame(Rental rental) {
+    public String rentVideogame(RentalDTO rentalDto) {
+        Rental rental = new Rental(clientService.getClientById(rentalDto.getClientId()),
+                                        copyService.getCopyById(rentalDto.getCopyId()),
+                                        rentalDto.getDays());
         return rentalRepository.createRentProcedure(rental.getClient().getId(),
                                                 rental.getCopy().getVideoGame().getCode(),
                                                 rental.getCopy().getOffice().getNumber(),
@@ -38,13 +45,13 @@ public class RentalService {
     }
 
     @Transactional
-    public List<Rental> getActiveRentals(String id) {
-        return rentalRepository.getActiveRentalsProcedure(id).get();
+    public List<RentalDTO> getActiveRentals(String id) {
+        return rentalToDTO(rentalRepository.getActiveRentalsProcedure(id).get());
     }
 
     @Transactional
-    public List<Rental> getRentHistory(String id) {
-        return rentalRepository.getAllRentalsProcedure(id).get();
+    public List<RentalDTO> getRentHistory(String id) {
+        return rentalToDTO(rentalRepository.getAllRentalsProcedure(id).get());
     }
 
     public List<RentalDTO> rentalToDTO(List<Rental> rentalList){

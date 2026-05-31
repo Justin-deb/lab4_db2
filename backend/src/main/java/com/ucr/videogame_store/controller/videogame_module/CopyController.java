@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ucr.videogame_store.model.Copy;
+import com.ucr.videogame_store.dto.CopyDTO;
 import com.ucr.videogame_store.service.CopyService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +31,7 @@ public class CopyController {
     }
     
     @PostMapping("/createCopy")
-    public ResponseEntity<?> createCopy(@RequestBody Copy copy) {
+    public ResponseEntity<?> createCopy(@RequestBody CopyDTO copy) {
         try {
             copyService.createCopy(copy);
             return ResponseEntity.status(HttpStatus.CREATED).build();
