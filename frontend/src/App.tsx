@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Clients from "./pages/ClientPage";
 import MainLayout from "./layout/MainLayout";
 import VideogamePage from "./pages/VideogamePage";
+import RentalPage from "./pages/RentalPage";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/videogames" element={<VideogamePage />} />
+          <Route path="/rental" element={<RentalPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

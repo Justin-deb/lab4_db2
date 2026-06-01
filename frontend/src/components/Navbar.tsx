@@ -97,7 +97,9 @@ function Navbar() {
 
             {/* VIDEOJUEGOS */}
             <button className="group flex items-center justify-between rounded-2xl border border-purple-400/30 bg-purple-900/40 px-5 py-4 transition-all duration-300 hover:border-purple-300 hover:bg-purple-800/60 hover:scale-[1.02]"
-            onClick={() =>navigate('/videogames')}>
+            onClick={() =>{
+              navigate('/videogames');
+              set_menu_abierto(false);}}>
               <div className="flex items-center gap-4">
                 <div className="rounded-xl bg-white/10 p-3">
                   <Gamepad2 className="text-white w-6 h-6" />
@@ -112,7 +114,9 @@ function Navbar() {
             </button>
 
             {/* ALQUILERES */}
-            <button className="group flex items-center justify-between rounded-2xl border border-purple-400/30 bg-purple-900/40 px-5 py-4 transition-all duration-300 hover:border-purple-300 hover:bg-purple-800/60 hover:scale-[1.02]">
+            <button className="group flex items-center justify-between rounded-2xl border border-purple-400/30 bg-purple-900/40 px-5 py-4 transition-all duration-300 hover:border-purple-300 hover:bg-purple-800/60 hover:scale-[1.02]" onClick={() =>{
+              navigate('/rental');
+              set_menu_abierto(false);}}>
               <div className="flex items-center gap-4">
                 <div className="rounded-xl bg-white/10 p-3">
                   <CalendarDays className="text-white w-6 h-6" />

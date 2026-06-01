@@ -137,11 +137,11 @@ CREATE PROCEDURE sp_listar_videojuegos()
 BEGIN
     SELECT 
         v.Codigo,
-        v.Nombre                  AS NombreJuego,
+        v.Nombre,
         v.Descripcion,
         v.Desarrollador,
         v.FechaLanzamiento,
-        c.Nombre                  AS Categoria
+        v.IdCategoria
     FROM VIDEOJUEGO v
     INNER JOIN CATEGORIA c ON v.IdCategoria = c.Id
     ORDER BY v.Nombre;
@@ -237,7 +237,7 @@ BEGIN
     SELECT 
         c.Consecutivo,
         c.CodigoVideojuego,
-        v.Nombre          AS NombreVideojuego,
+        v.Nombre,
         c.Estado,
         c.Disponibilidad
     FROM COPIA c
@@ -328,10 +328,10 @@ CREATE PROCEDURE sp_listar_videojuegos_disponibles_por_sucursal(
 BEGIN
     SELECT DISTINCT
         v.Codigo,
-        v.Nombre          AS NombreVideojuego,
+        v.Nombre,
         v.Descripcion,
         v.Desarrollador,
-        c.Nombre          AS Categoria,
+        v.IdCategoria,
         COUNT(cp.Consecutivo) AS CopiasdisponiblesEnSucursal
     FROM VIDEOJUEGO v
     INNER JOIN COPIA cp ON v.Codigo = cp.CodigoVideojuego
@@ -410,8 +410,8 @@ BEGIN
         a.FechaPrestamo,
         a.CantidadDias,
         DATE_ADD(a.FechaPrestamo, INTERVAL a.CantidadDias DAY) AS FechaLimite,
-        v.Codigo                                               AS CodigoVideojuego,
-        v.Nombre                                               AS NombreVideojuego,
+        v.Codigo,
+        v.Nombre,
         a.ConsecutivoCopia,
         s.Numero                                               AS NumeroSucursal,
         s.Nombre                                               AS NombreSucursal
@@ -499,8 +499,8 @@ BEGIN
         a.FechaPrestamo,
         a.CantidadDias,
         IFNULL(CAST(a.FechaDevolucion AS CHAR), 'Pendiente') AS FechaDevolucion,
-        v.Codigo                                              AS CodigoVideojuego,
-        v.Nombre                                              AS NombreVideojuego,
+        v.Codigo,
+        v.Nombre,
         a.ConsecutivoCopia,
         IFNULL(a.DetalleDevolucion, '-')                      AS DetalleDevolucion
     FROM ALQUILER a

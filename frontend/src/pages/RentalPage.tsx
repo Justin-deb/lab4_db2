@@ -1,24 +1,19 @@
-import { useEffect, useState } from "react";
-import type { Videogame } from "../types/Videogame";
-import { createVideogame, getAllVideogames } from "../service/VideogameService";
-import type { Category } from "../types/Category";
-import { createCategory, getCategories } from "../service/CategoryService";
+import React, { useEffect, useState } from 'react'
+import type { Rental } from '../types/Rental';
+import type { Videogame } from '../types/Videogame';
+import { getAllVideogames } from '../service/VideogameService';
+import { rentVideogame } from '../service/RentalService';
 
-const VideogamePage = () => {
-    const [newVideogame, setNewVideogame] = useState<Videogame>({
-        code: 0,
-        name: '',
-        description: '',
-        developer: '',
-        releaseDate: new Date,
-        categoryId: 0,
+const RentalPage = () => {
+    const [rental, setRental] = useState<Rental>({
+        sequence: 0,
+        clientId: '',
+        copyId: 0,
+        loanDate: new Date(),
+        days: 0,
+        returnDate: new Date(),
+        returnDetails: '',
     });
-    const [category, setCategory] = useState<Category>({
-        id: 0,
-        name: '',
-        detail: '',
-    });
-    const [categoryList, setCategoryList] = useState<Category[]>([]);
 
     const [videogameList, setVideogameList] = useState<Videogame[]>([]);
 
@@ -26,18 +21,13 @@ const VideogamePage = () => {
         const getVideogames = async () => {
             setVideogameList(await getAllVideogames());
         }
-        const getAllCategories = async () => {
-            setCategoryList(await getCategories());
-        }
-
         getVideogames();
-        getAllCategories();
-    }, [setCategory]);
+    }, []);
 
-    const onChangeHandlerVideogame = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const onChangeHandlerRental = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
 
-        setNewVideogame(prev => {
+        setRental(prev => {
             switch (id) {
                 case 'code':
                     return { ...prev, code: Number(value) };
@@ -57,46 +47,47 @@ const VideogamePage = () => {
         });
     };
 
-    const onChangeHandlerCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { id, value } = e.target;
+    // const onChangeHandlerCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { id, value } = e.target;
 
-        setCategory(prev => {
-            switch (id) {
-                case 'id':
-                    return { ...prev, id: Number(value) };
-                case 'name':
-                    return { ...prev, name: value };
-                case 'detail':
-                    return { ...prev, detail: value };
-                default:
-                    return prev;
-            }
-        });
-    };
+    //     setCategory(prev => {
+    //         switch (id) {
+    //             case 'id':
+    //                 return { ...prev, id: Number(value) };
+    //             case 'name':
+    //                 return { ...prev, name: value };
+    //             case 'detail':
+    //                 return { ...prev, detail: value };
+    //             default:
+    //                 return prev;
+    //         }
+    //     });
+    // };
 
-    const onSubmitHandlerVideogame = async (event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmitHandlerRental = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        await createVideogame(newVideogame);
-        setNewVideogame({
-            code: 0,
-            name: '',
-            description: '',
-            developer: '',
-            releaseDate: new Date,
-            categoryId: 0,
+        await rentVideogame(rental);
+        setRental({
+            sequence: 0,
+            clientId: '',
+            copyId: 0,
+            loanDate: new Date(),
+            days: 0,
+            returnDate: new Date(),
+            returnDetails: '',
         });
         setVideogameList(await getAllVideogames());
     }
-    const onSubmitHandlerCategory = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        await createCategory(category);
-        setCategory({
-            id: 0,
-            name: '',
-            detail: '',
-        });
-        alert('Categoria creada');
-    }
+    // const onSubmitHandlerCategory = async (event: React.FormEvent<HTMLFormElement>) => {
+    //     event.preventDefault();
+    //     await createCategory(category);
+    //     setCategory({
+    //         id: 0,
+    //         name: '',
+    //         detail: '',
+    //     });
+    //     alert('Categoria creada');
+    // }
     const formatDate = (date: Date) => date.toISOString().slice(0, 10);
     return (
         <div className="min-h-screen bg-black flex flex-col">
@@ -106,11 +97,11 @@ const VideogamePage = () => {
                 <div className="mb-8">
 
                     <h2 className="text-4xl font-bold text-white">
-                        Módulo de Videojuegos
+                        Módulo de Alquileres
                     </h2>
 
                     <p className="text-purple-300 mt-2">
-                        Administra tus videojuegos aqui
+                        Aqui puedes alquilar un videojuego, ver alquileres activos y todos los alquileres
                     </p>
                 </div>
 
@@ -121,83 +112,75 @@ const VideogamePage = () => {
                     <div className="rounded-3xl border border-purple-500/20 bg-purple-950/40 backdrop-blur-md p-6 shadow-2xl">
 
                         <h3 className="text-2xl font-semibold text-white mb-6">
-                            Ingresar Videojuego
+                            Alquilar videojuego
                         </h3>
 
-                        <form className="space-y-5" onSubmit={onSubmitHandlerVideogame}>
+                        <form className="space-y-5" onSubmit={onSubmitHandlerRental}>
 
                             <input
                                 type="text"
-                                placeholder="Codigo"
-                                id="code"
-                                onChange={onChangeHandlerVideogame}
+                                placeholder="sequencia"
+                                id="sequence"
+                                onChange={onChangeHandlerRental}
                                 required={true}
-                                value={newVideogame.code}
+                                value={rental.sequence}
                                 className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                             />
 
                             <div className="flex space-x-4">
                                 <input
                                     type="text"
-                                    placeholder="Nombre"
-                                    id="name"
-                                    onChange={onChangeHandlerVideogame}
+                                    placeholder="Id cliente"
+                                    id="clientId"
+                                    onChange={onChangeHandlerRental}
                                     required={true}
-                                    value={newVideogame.name}
+                                    value={rental.clientId}
                                     className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                                 />
                                 <input
                                     type="text"
-                                    placeholder="Descripcion"
-                                    id="description"
-                                    onChange={onChangeHandlerVideogame}
+                                    placeholder="Id copia"
+                                    id="copyId"
+                                    onChange={onChangeHandlerRental}
                                     required={true}
-                                    value={newVideogame.description}
+                                    value={rental.copyId}
                                     className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                                 />
                             </div>
 
                             <input
+                                type="date"
+                                id="loanDate"
+                                onChange={onChangeHandlerRental}
+                                required
+                                value={formatDate(rental.loanDate)}
+                                className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
+                            />
+
+                            <input
                                 type="text"
-                                placeholder="Desarrollador"
-                                id="developer"
-                                onChange={onChangeHandlerVideogame}
+                                placeholder="Dias"
+                                id="days"
+                                onChange={onChangeHandlerRental}
                                 required={true}
-                                value={newVideogame.developer}
+                                value={rental.days}
                                 className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                             />
 
                             <input
                                 type="date"
-                                id="releaseDate"
-                                onChange={onChangeHandlerVideogame}
+                                id="returnDate"
+                                onChange={onChangeHandlerRental}
                                 required
-                                value={formatDate(newVideogame.releaseDate)}
+                                value={formatDate(rental.returnDate)}
                                 className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                             />
-
-                            <select
-                                id="category"
-                                onChange={onChangeHandlerVideogame}
-                                required
-                                value={newVideogame.categoryId}
-                                className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
-                            >
-                                <option value={0} disabled>
-                                    Selecciona una categoría
-                                </option>
-                                {categoryList.map(cat => (
-                                    <option key={cat.id} value={cat.id}>
-                                        {cat.name}
-                                    </option>
-                                ))}
-                            </select>
 
                             <button
                                 type="submit"
                                 className="w-full rounded-2xl bg-linear-to-r from-purple-700 to-purple-500 py-3 text-white font-semibold hover:scale-[1.02] transition"
                             >
-                                Crear Videojuego
+                                Alquilar Videojuego
                             </button>
                         </form>
                     </div>
@@ -221,7 +204,7 @@ const VideogamePage = () => {
                                 </tr>
                             </thead>
                             <tbody className="bg-white">
-                                {videogameList && videogameList.map(v => (
+                                {/* {videogameList && videogameList.map(v => (
                                     <tr key={v.code} className="text-black">
                                         <td className="pl-3">{v.code}</td>
                                         <td className="pl-3.5">{v.name}</td>
@@ -232,12 +215,12 @@ const VideogamePage = () => {
                                             {categoryList.find(cat => cat.id === v.categoryId)?.name || 'N/A'}
                                         </td>
                                     </tr>
-                                ))}
+                                ))} */}
                             </tbody>
                         </table>
                     </div>
                 </div >
-                <div className="rounded-3xl border border-purple-500/20 bg-purple-950/40 backdrop-blur-md p-6 shadow-2xl mt-10">
+                {/* <div className="rounded-3xl border border-purple-500/20 bg-purple-950/40 backdrop-blur-md p-6 shadow-2xl mt-10">
 
                     <h3 className="text-2xl font-semibold text-white mb-6">
                         Crear categoria
@@ -246,7 +229,7 @@ const VideogamePage = () => {
                     <form className="space-y-5" onSubmit={onSubmitHandlerCategory}>
 
                         <input
-                            type="text"
+                            type="number"
                             placeholder="Codigo"
                             id="id"
                             onChange={onChangeHandlerCategory}
@@ -282,10 +265,10 @@ const VideogamePage = () => {
                             Crear Categoria
                         </button>
                     </form>
-                </div>
+                </div> */}
             </main >
         </div >
     );
 }
 
-export default VideogamePage
+export default RentalPage

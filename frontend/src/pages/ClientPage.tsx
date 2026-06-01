@@ -21,37 +21,29 @@ function Clients() {
     }
 
     getClients();
-  }, [clientList]);
+  }, []);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    const updatedClient: Client = newClient!;
-    switch (e.currentTarget.id) {
-      case 'id':
-        updatedClient.id = value;
-        setNewClient(updatedClient);
-        break;
-      case 'name':
-        updatedClient.name = value;
-        setNewClient(updatedClient);
-        break;
-      case 'lastName':
-        updatedClient.lastName = value;
-        setNewClient(updatedClient);
-        break;
-      case 'phoneNumber':
-        updatedClient.phoneNumber = value;
-        setNewClient(updatedClient);
-        break;
-      case 'email':
-        updatedClient.email = value;
-        setNewClient(updatedClient);
-        break;
-      case 'address':
-        updatedClient.address = value;
-        setNewClient(updatedClient);
-        break;
-    }
+    const { id, value } = e.target;
+
+        setNewClient(prev => {
+            switch (id) {
+                case 'id':
+                    return { ...prev, id: value };
+                case 'name':
+                    return { ...prev, name: value };
+                case 'lastName':
+                    return { ...prev, lastName: value };
+                case 'phoneNumber':
+                    return { ...prev, phoneNumber: value };
+                case 'email':
+                    return { ...prev, email: value };
+                case 'address':
+                    return { ...prev, address: value };
+                default:
+                    return prev;
+            }
+        });
   };
 
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {

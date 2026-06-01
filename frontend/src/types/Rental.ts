@@ -1,9 +1,9 @@
 export interface Rental {
   sequence: number;
   clientId: string;
-  copyId: number;
+  copyId: number|null;
   loanDate: Date;
-  days: number;
+  days: number|null;
   returnDate: Date;
   returnDetails: string;
 }
