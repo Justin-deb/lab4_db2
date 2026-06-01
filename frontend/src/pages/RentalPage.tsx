@@ -143,7 +143,6 @@ const RentalPage = () => {
                                     id="copyId"
                                     onChange={onChangeHandlerRental}
                                     required={true}
-                                    value={rental.copyId}
                                     className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                                 />
                             </div>
@@ -163,7 +162,6 @@ const RentalPage = () => {
                                 id="days"
                                 onChange={onChangeHandlerRental}
                                 required={true}
-                                value={rental.days}
                                 className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                             />
 
