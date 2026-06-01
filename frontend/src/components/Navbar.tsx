@@ -6,6 +6,7 @@ import {
   Gamepad2,
   CalendarDays,
   ChevronRight,
+  Building2,
 } from "lucide-react";
 
 import { useNavigate } from "react-router-dom";
@@ -110,6 +111,23 @@ function Navbar() {
 
                 <span className="text-white font-semibold text-lg">
                   Módulo Videojuegos
+                </span>
+              </div>
+
+              <ChevronRight className="text-white w-5 h-5" />
+            </button>
+
+            {/* SUCURSALES */}
+            <button className="group flex items-center justify-between rounded-2xl border border-purple-400/30 bg-purple-900/40 px-5 py-4 transition-all duration-300 hover:border-purple-300 hover:bg-purple-800/60 hover:scale-[1.02]" onClick={() =>{
+              navigate('/office');
+              set_menu_abierto(false);}}>
+              <div className="flex items-center gap-4">
+                <div className="rounded-xl bg-white/10 p-3">
+                  <Building2 className="text-white w-6 h-6" />
+                </div>
+
+                <span className="text-white font-semibold text-lg">
+                  Módulo Sucursales
                 </span>
               </div>
 
