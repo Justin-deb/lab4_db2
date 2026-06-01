@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import type { Rental } from '../types/Rental';
-import type { Videogame } from '../types/Videogame';
-import { getAllVideogames } from '../service/VideogameService';
 import { rentVideogame } from '../service/RentalService';
 
 const RentalPage = () => {
@@ -14,15 +12,6 @@ const RentalPage = () => {
         returnDate: new Date(),
         returnDetails: '',
     });
-
-    const [videogameList, setVideogameList] = useState<Videogame[]>([]);
-
-    useEffect(() => {
-        const getVideogames = async () => {
-            setVideogameList(await getAllVideogames());
-        }
-        getVideogames();
-    }, []);
 
     const onChangeHandlerRental = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
@@ -76,7 +65,6 @@ const RentalPage = () => {
             returnDate: new Date(),
             returnDetails: '',
         });
-        setVideogameList(await getAllVideogames());
     }
     // const onSubmitHandlerCategory = async (event: React.FormEvent<HTMLFormElement>) => {
     //     event.preventDefault();
@@ -143,7 +131,7 @@ const RentalPage = () => {
                                     id="copyId"
                                     onChange={onChangeHandlerRental}
                                     required={true}
-                                    value={rental.copyId}
+                                    value={rental.copyId ?? ''}
                                     className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                                 />
                             </div>
@@ -163,7 +151,7 @@ const RentalPage = () => {
                                 id="days"
                                 onChange={onChangeHandlerRental}
                                 required={true}
-                                value={rental.days}
+                                value={rental.days ?? ''}
                                 className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                             />
 
@@ -229,7 +217,7 @@ const RentalPage = () => {
                     <form className="space-y-5" onSubmit={onSubmitHandlerCategory}>
 
                         <input
-                            type="number"
+                            type="text"
                             placeholder="Codigo"
                             id="id"
                             onChange={onChangeHandlerCategory}

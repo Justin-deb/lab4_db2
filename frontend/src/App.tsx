@@ -5,6 +5,7 @@ import Clients from "./pages/ClientPage";
 import MainLayout from "./layout/MainLayout";
 import VideogamePage from "./pages/VideogamePage";
 import RentalPage from "./pages/RentalPage";
+import OfficePage from "./pages/OfficePage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/videogames" element={<VideogamePage />} />
+          <Route path="/office" element={<OfficePage />} />
           <Route path="/rental" element={<RentalPage />} />
         </Route>
       </Routes>
