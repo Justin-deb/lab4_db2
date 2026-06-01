@@ -237,14 +237,13 @@ BEGIN
     SELECT 
         c.Consecutivo,
         c.CodigoVideojuego,
-        v.Nombre,
         c.Estado,
         c.Disponibilidad
     FROM COPIA c
     INNER JOIN VIDEOJUEGO v ON c.CodigoVideojuego = v.Codigo
     WHERE c.NumeroSucursal = p_numeroSucursal
       AND c.Disponibilidad = 'S'
-    ORDER BY v.Nombre, c.Consecutivo;
+    ORDER BY  c.Consecutivo;
 END//
 
 
@@ -332,7 +331,6 @@ BEGIN
         v.Descripcion,
         v.Desarrollador,
         v.IdCategoria,
-        COUNT(cp.Consecutivo) AS CopiasdisponiblesEnSucursal
     FROM VIDEOJUEGO v
     INNER JOIN COPIA cp ON v.Codigo = cp.CodigoVideojuego
     INNER JOIN CATEGORIA c ON v.IdCategoria = c.Id
@@ -409,12 +407,8 @@ BEGIN
         a.Secuencia,
         a.FechaPrestamo,
         a.CantidadDias,
-        DATE_ADD(a.FechaPrestamo, INTERVAL a.CantidadDias DAY) AS FechaLimite,
-        v.Codigo,
-        v.Nombre,
+        DATE_ADD(a.FechaPrestamo, INTERVAL a.CantidadDias DAY) AS FechaDevolucion,
         a.ConsecutivoCopia,
-        s.Numero                                               AS NumeroSucursal,
-        s.Nombre                                               AS NombreSucursal
     FROM ALQUILER a
     INNER JOIN COPIA      c ON a.ConsecutivoCopia = c.Consecutivo
     INNER JOIN VIDEOJUEGO v ON c.CodigoVideojuego = v.Codigo
@@ -498,9 +492,7 @@ BEGIN
         a.Secuencia,
         a.FechaPrestamo,
         a.CantidadDias,
-        IFNULL(CAST(a.FechaDevolucion AS CHAR), 'Pendiente') AS FechaDevolucion,
-        v.Codigo,
-        v.Nombre,
+        a.FechaDevolucion,
         a.ConsecutivoCopia,
         IFNULL(a.DetalleDevolucion, '-')                      AS DetalleDevolucion
     FROM ALQUILER a
