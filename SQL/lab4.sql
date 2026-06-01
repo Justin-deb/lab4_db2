@@ -1,9 +1,9 @@
 /*
-	Laboratorio 4 Bases de datos 2
-	Integrantes
-	Mairon Barquero Salazar C4D016
-	Carlos Rodriguez Delgado C4J084
-	Justin Estrada Cruz C4E977
+    Laboratorio 4 Bases de datos 2
+    Integrantes
+    Mairon Barquero Salazar C4D016
+    Carlos Rodriguez Delgado C4J084
+    Justin Estrada Cruz C4E977
 */
 
 CREATE SCHEMA IF NOT EXISTS VIDEO_CLUB DEFAULT CHARACTER SET utf8;
@@ -11,76 +11,76 @@ CREATE SCHEMA IF NOT EXISTS VIDEO_CLUB DEFAULT CHARACTER SET utf8;
 USE VIDEO_CLUB;
 
 CREATE TABLE CLIENTE (
-	Cedula CHAR(9) NOT NULL PRIMARY KEY,
-	Nombre VARCHAR(20) NOT NULL,
-	Apellido VARCHAR(20) NOT NULL,
-	Telefono CHAR(8) NOT NULL,
-	Correo VARCHAR(100),
-	Direccion VARCHAR(255) NOT NULL,
-	FechaRegistro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Cedula CHAR(9) NOT NULL PRIMARY KEY,
+    Nombre VARCHAR(20) NOT NULL,
+    Apellido VARCHAR(20) NOT NULL,
+    Telefono CHAR(8) NOT NULL,
+    Correo VARCHAR(100),
+    Direccion VARCHAR(255) NOT NULL,
+    FechaRegistro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS CATEGORIA (
-	Id INT NOT NULL PRIMARY KEY,
-	Nombre VARCHAR(20) NOT NULL,
-	Detalle VARCHAR(100) NOT NULL
+    Id INT NOT NULL PRIMARY KEY,
+    Nombre VARCHAR(20) NOT NULL,
+    Detalle VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE VIDEOJUEGO (
-	Codigo INT NOT NULL PRIMARY KEY,
-	Nombre VARCHAR(50) NOT NULL,
-	Descripcion TEXT NOT NULL,
-	Desarrollador VARCHAR(30) NOT NULL,
-	FechaLanzamiento DATE NOT NULL,
-	IdCategoria INT NOT NULL,
-	CONSTRAINT VideojuegoCategoriaFK FOREIGN KEY (IdCategoria) REFERENCES CATEGORIA(Id)
+    Codigo INT NOT NULL PRIMARY KEY,
+    Nombre VARCHAR(50) NOT NULL,
+    Descripcion TEXT NOT NULL,
+    Desarrollador VARCHAR(30) NOT NULL,
+    FechaLanzamiento DATE NOT NULL,
+    IdCategoria INT NOT NULL,
+    CONSTRAINT VideojuegoCategoriaFK FOREIGN KEY (IdCategoria) REFERENCES CATEGORIA(Id)
 );
 
 CREATE TABLE SUCURSAL (
-	Numero INT NOT NULL PRIMARY KEY,
-	Nombre VARCHAR(30) NOT NULL
+    Numero INT NOT NULL PRIMARY KEY,
+    Nombre VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE COPIA (
-	Consecutivo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	CodigoVideojuego INT NOT NULL,
-	NumeroSucursal INT NOT NULL,
-	FechaIngreso DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	Disponibilidad CHAR NOT NULL DEFAULT 'S' CHECK (Disponibilidad IN ('S', 'N')),
-	Estado VARCHAR(200),
-	CONSTRAINT CopiaSucursalFK FOREIGN KEY (NumeroSucursal) REFERENCES SUCURSAL(Numero),
-	CONSTRAINT CopiaVideojuegoFK FOREIGN KEY (CodigoVideojuego) REFERENCES VIDEOJUEGO(Codigo)
+    Consecutivo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    CodigoVideojuego INT NOT NULL,
+    NumeroSucursal INT NOT NULL,
+    FechaIngreso DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Disponibilidad CHAR NOT NULL DEFAULT 'S' CHECK (Disponibilidad IN ('S', 'N')),
+    Estado VARCHAR(200),
+    CONSTRAINT CopiaSucursalFK FOREIGN KEY (NumeroSucursal) REFERENCES SUCURSAL(Numero),
+    CONSTRAINT CopiaVideojuegoFK FOREIGN KEY (CodigoVideojuego) REFERENCES VIDEOJUEGO(Codigo)
 );
 
 CREATE TABLE ALQUILER (
-	Secuencia INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	CedulaCliente CHAR(9) NOT NULL,
-	ConsecutivoCopia INT NOT NULL,
-	FechaPrestamo DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CantidadDias INT NOT NULL,
-	FechaDevolucion DATETIME,
-	DetalleDevolucion VARCHAR(200),
-	CONSTRAINT AlquilerClienteFK FOREIGN KEY (CedulaCliente) REFERENCES CLIENTE(Cedula),
-	CONSTRAINT AlquilerCopiaFK FOREIGN KEY (ConsecutivoCopia) REFERENCES COPIA(Consecutivo)
+    Secuencia INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    CedulaCliente CHAR(9) NOT NULL,
+    ConsecutivoCopia INT NOT NULL,
+    FechaPrestamo DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CantidadDias INT NOT NULL,
+    FechaDevolucion DATETIME,
+    DetalleDevolucion VARCHAR(200),
+    CONSTRAINT AlquilerClienteFK FOREIGN KEY (CedulaCliente) REFERENCES CLIENTE(Cedula),
+    CONSTRAINT AlquilerCopiaFK FOREIGN KEY (ConsecutivoCopia) REFERENCES COPIA(Consecutivo)
 );
 
 CREATE TABLE TRASLADO (
-	NumeroOperacion INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	ConsecutivoCopia INT NOT NULL,
-	FechaTraslado DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	SucursalOrigen INT NOT NULL,
-	SucursalDestino INT NOT NULL,
-	Comentarios VARCHAR(100),
-	CONSTRAINT TrasladoCopiaFK FOREIGN KEY (ConsecutivoCopia) REFERENCES COPIA(Consecutivo),
-	CONSTRAINT TrasladoOrigenFK FOREIGN KEY (SucursalOrigen) REFERENCES SUCURSAL(Numero),
-	CONSTRAINT TrasladoDestinoFK FOREIGN KEY (SucursalDestino) REFERENCES SUCURSAL(Numero)
+    NumeroOperacion INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ConsecutivoCopia INT NOT NULL,
+    FechaTraslado DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    SucursalOrigen INT NOT NULL,
+    SucursalDestino INT NOT NULL,
+    Comentarios VARCHAR(100),
+    CONSTRAINT TrasladoCopiaFK FOREIGN KEY (ConsecutivoCopia) REFERENCES COPIA(Consecutivo),
+    CONSTRAINT TrasladoOrigenFK FOREIGN KEY (SucursalOrigen) REFERENCES SUCURSAL(Numero),
+    CONSTRAINT TrasladoDestinoFK FOREIGN KEY (SucursalDestino) REFERENCES SUCURSAL(Numero)
 );
 
 
 DELIMITER //
 
 /*
-	MÓDULO 1: CLIENTES
+    MÓDULO 1: CLIENTES
 */
 
 -- 1.1 Listar todos los clientes
@@ -128,7 +128,7 @@ END//
 
 
 /*
-	MÓDULO 2: VIDEOJUEGOS
+    MÓDULO 2: VIDEOJUEGOS
 */
 
 -- 2.1 Listar todos los videojuegos
@@ -237,13 +237,14 @@ BEGIN
     SELECT 
         c.Consecutivo,
         c.CodigoVideojuego,
-        c.Estado,
-        c.Disponibilidad
+        c.NumeroSucursal,
+        c.FechaIngreso,
+        c.Disponibilidad,
+        c.Estado
     FROM COPIA c
-    INNER JOIN VIDEOJUEGO v ON c.CodigoVideojuego = v.Codigo
     WHERE c.NumeroSucursal = p_numeroSucursal
       AND c.Disponibilidad = 'S'
-    ORDER BY  c.Consecutivo;
+    ORDER BY c.Consecutivo;
 END//
 
 
@@ -297,7 +298,7 @@ END//
 
 
 /*
-	MÓDULO 3: ALQUILERES
+    MÓDULO 3: ALQUILERES
 */
 
 -- 3.1 Consultar datos de un cliente por cédula
@@ -405,15 +406,14 @@ CREATE PROCEDURE sp_listar_alquileres_activos_usuario(
 BEGIN
     SELECT 
         a.Secuencia,
+        a.CedulaCliente,
+        a.ConsecutivoCopia,
         a.FechaPrestamo,
         a.CantidadDias,
-        DATE_ADD(a.FechaPrestamo, INTERVAL a.CantidadDias DAY) AS FechaDevolucion,
-        a.ConsecutivoCopia
+        COALESCE(a.FechaDevolucion, DATE_ADD(a.FechaPrestamo, INTERVAL a.CantidadDias DAY)) AS FechaDevolucion,
+        a.DetalleDevolucion
     FROM ALQUILER a
-    INNER JOIN COPIA      c ON a.ConsecutivoCopia = c.Consecutivo
-    INNER JOIN VIDEOJUEGO v ON c.CodigoVideojuego = v.Codigo
-    INNER JOIN SUCURSAL   s ON c.NumeroSucursal   = s.Numero
-    WHERE a.CedulaCliente    = p_cedula
+    WHERE a.CedulaCliente = p_cedula
       AND a.FechaDevolucion IS NULL
     ORDER BY a.FechaPrestamo;
 END//
@@ -490,14 +490,13 @@ CREATE PROCEDURE sp_ver_historico_alquileres(
 BEGIN
     SELECT 
         a.Secuencia,
+        a.CedulaCliente,
+        a.ConsecutivoCopia,
         a.FechaPrestamo,
         a.CantidadDias,
         a.FechaDevolucion,
-        a.ConsecutivoCopia,
-        IFNULL(a.DetalleDevolucion, '-')                      AS DetalleDevolucion
+        IFNULL(a.DetalleDevolucion, '-') AS DetalleDevolucion
     FROM ALQUILER a
-    INNER JOIN COPIA      c ON a.ConsecutivoCopia = c.Consecutivo
-    INNER JOIN VIDEOJUEGO v ON c.CodigoVideojuego = v.Codigo
     WHERE a.CedulaCliente = p_cedula
     ORDER BY a.FechaPrestamo DESC;
 END//

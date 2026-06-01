@@ -12,7 +12,8 @@ public class CopyDTO {
 
     public CopyDTO() {}
 
-    public CopyDTO(Integer videogameId, Integer officeId,String availability, String condition) {
+    public CopyDTO(Integer serialNumber, Integer videogameId, Integer officeId, String availability, String condition) {
+        this.serialNumber = serialNumber;
         this.videogameId = videogameId;
         this.officeId = officeId;
         this.availability = availability;

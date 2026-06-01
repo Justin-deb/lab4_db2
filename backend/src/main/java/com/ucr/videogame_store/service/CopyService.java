@@ -30,7 +30,7 @@ public class CopyService {
                                     officeService.getOfficeById(copyDto.getOfficeId()),
                                     copyDto.getAvailability(),
                                     copyDto.getCondition());
-        return copyRepository.createCopyProcedure(copy.getSerialNumber(), copy.getOffice().getNumber(), copy.getCondition());
+        return copyRepository.createCopyProcedure(copyDto.getVideoGameId(), copy.getOffice().getNumber(), copy.getCondition());
     }
 
     @Transactional
@@ -41,12 +41,14 @@ public class CopyService {
     public List<CopyDTO> copyToDTO(List<Copy> copyList){
         List<CopyDTO> copyDTOlist = new ArrayList<CopyDTO>();
         for (Copy c : copyList) {
-            copyDTOlist.add(new CopyDTO(c.getVideoGame().getCode(),
-             c.getOffice().getNumber(),
-             c.getAvailability(),
-             c.getCondition()));
+            copyDTOlist.add(new CopyDTO(
+                c.getSerialNumber(),  // ✅ AGREGA ESTO
+                c.getVideoGame().getCode(),
+                c.getOffice().getNumber(),
+                c.getAvailability(),
+                c.getCondition()
+            ));
         }
-
         return copyDTOlist; 
     }
 

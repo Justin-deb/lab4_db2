@@ -154,6 +154,7 @@ const VideogamePage = () => {
     event.preventDefault();
     try {
       const finalCopy = { ...newCopy, entryDate: new Date() };
+      console.log(JSON.stringify(finalCopy));
       await createCopy(finalCopy);
       setCopyResult("✅ Copia ingresada correctamente.");
       setCopyError("");

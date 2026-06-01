@@ -1,14 +1,19 @@
 package com.ucr.videogame_store.dto;
 
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class TransferDTO {
     private Integer operationNumber;
     private Integer copyId;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     private LocalDateTime transferDate;
     private Integer originOfficeId;
     private Integer destinationOfficeId;
     private String comments;
+
+    public TransferDTO() {
+    }
 
     public TransferDTO(Integer copyId, Integer originOfficeId,
                     Integer destinationOfficeId, String comments) {
@@ -46,7 +51,7 @@ public class TransferDTO {
         return originOfficeId;
     }
 
-    public void setOriginOffice(Integer originOfficeId) {
+    public void setOriginOfficeId(Integer originOfficeId) {  // ✅ CORREGIDO
         this.originOfficeId = originOfficeId;
     }
 
@@ -54,7 +59,7 @@ public class TransferDTO {
         return destinationOfficeId;
     }
 
-    public void setDestinationOffice(Integer destinationOfficeId) {
+    public void setDestinationOfficeId(Integer destinationOfficeId) {  // ✅ CORREGIDO
         this.destinationOfficeId = destinationOfficeId;
     }
 

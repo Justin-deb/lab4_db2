@@ -16,7 +16,7 @@ export const getCopiesByOffice = async (officeId: number): Promise<Copy[]> => {
     }
 }
 
-export const createCopy = async (copy: Copy): Promise<Copy> => {
+export const createCopy = async (copy: Copy) => {
     try {
         const response = await fetch("/server/api/copy/createCopy", {
             method: 'POST',
@@ -31,14 +31,14 @@ export const createCopy = async (copy: Copy): Promise<Copy> => {
             throw new Error(errorText || `Error: ${response.status}`);
         }
 
-        // Intentar parsear JSON
-        try {
-            const data = await response.json();
-            return data;
-        } catch (jsonError) {
-            console.warn('No JSON response pero copia se creó:', jsonError);
-            return copy;
-        }
+        // // Intentar parsear JSON
+        // try {
+        //     const data = await response.json();
+        //     return data;
+        // } catch (jsonError) {
+        //     console.warn('No JSON response pero copia se creó:', jsonError);
+        //     return copy;
+        // }
     } catch (err) {
         console.error('Error al crear copia:', err);
         throw err;

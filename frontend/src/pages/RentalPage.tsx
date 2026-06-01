@@ -33,8 +33,8 @@ const RentalPage = () => {
 
     setRental(prev => {
       switch (id) {
-        case 'sequence':
-          return { ...prev, sequence: Number(value) }
+        // case 'sequence':
+        //   return { ...prev, sequence: Number(value) }
         case 'clientId':
           return { ...prev, clientId: value }
         case 'copyId':
@@ -59,7 +59,7 @@ const RentalPage = () => {
       loanDate,
       returnDate: new Date(loanDate.getTime() + days * 24 * 60 * 60 * 1000),
     }
-
+    console.log(JSON.stringify(finalRental));
     await rentVideogame(finalRental)
 
     setRental({
@@ -108,15 +108,6 @@ const RentalPage = () => {
             <h3 className="text-2xl font-semibold text-white mb-6">Alquilar videojuego</h3>
 
             <form className="space-y-5" onSubmit={onSubmitHandlerRental}>
-              <input
-                type="number"
-                placeholder="sequencia"
-                id="sequence"
-                onChange={onChangeHandlerRental}
-                value={rental.sequence}
-                required
-                className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
-              />
 
               <div className="flex space-x-4">
                 <input

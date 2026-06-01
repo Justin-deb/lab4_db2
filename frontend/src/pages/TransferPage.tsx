@@ -56,12 +56,13 @@ export default function ModuloTraslado() {
     try {
       const traslado: Transfer = {
         operationNumber: 0,
-        copyId: copiaSeleccionada.serialNumber,
+        copyId: copiaSeleccionada.serialNumber,  // ⚠️ Verificar si es número
         transferDate: new Date(),
         originOfficeId: origenId,
         destinationOfficeId: destinoId,
         comments: comentarios,
       };
+      console.log(JSON.stringify(traslado));
       await transferGame(traslado);
       setExitoso(true);
     } catch (e: unknown) {
