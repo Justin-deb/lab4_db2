@@ -330,7 +330,7 @@ BEGIN
         v.Nombre,
         v.Descripcion,
         v.Desarrollador,
-        v.IdCategoria,
+        v.IdCategoria
     FROM VIDEOJUEGO v
     INNER JOIN COPIA cp ON v.Codigo = cp.CodigoVideojuego
     INNER JOIN CATEGORIA c ON v.IdCategoria = c.Id
@@ -408,7 +408,7 @@ BEGIN
         a.FechaPrestamo,
         a.CantidadDias,
         DATE_ADD(a.FechaPrestamo, INTERVAL a.CantidadDias DAY) AS FechaDevolucion,
-        a.ConsecutivoCopia,
+        a.ConsecutivoCopia
     FROM ALQUILER a
     INNER JOIN COPIA      c ON a.ConsecutivoCopia = c.Consecutivo
     INNER JOIN VIDEOJUEGO v ON c.CodigoVideojuego = v.Codigo
