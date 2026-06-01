@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import type { Rental } from '../types/Rental';
 import type { Videogame } from '../types/Videogame';
 import { getAllVideogames } from '../service/VideogameService';
-import { rentVideogame } from '../service/RentalService';
+import { getActiveRentals, getRentHistory, rentVideogame } from '../service/RentalService';
 
 const RentalPage = () => {
     const [rental, setRental] = useState<Rental>({
@@ -15,6 +15,9 @@ const RentalPage = () => {
         returnDetails: '',
     });
 
+    const [rentalList, setRentalList] = useState<Rental[]>([]);
+    const [clientId, setClientId] = useState<string>('');
+
     const [videogameList, setVideogameList] = useState<Videogame[]>([]);
 
     useEffect(() => {
@@ -22,6 +25,7 @@ const RentalPage = () => {
             setVideogameList(await getAllVideogames());
         }
         getVideogames();
+        console.log(videogameList)
     }, []);
 
     const onChangeHandlerRental = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -29,43 +33,28 @@ const RentalPage = () => {
 
         setRental(prev => {
             switch (id) {
-                case 'code':
-                    return { ...prev, code: Number(value) };
-                case 'name':
-                    return { ...prev, name: value };
-                case 'description':
-                    return { ...prev, description: value };
-                case 'developer':
-                    return { ...prev, developer: value };
-                case 'releaseDate':
-                    return { ...prev, releaseDate: new Date(value) };
-                case 'category':
-                    return { ...prev, categoryId: Number(value) };
+                case 'sequence':
+                    return { ...prev, sequence: Number(value) };
+                case 'clientId':
+                    return { ...prev, clientId: value };
+                case 'copyId':
+                    return { ...prev, copyId: Number(value) };
+                case 'loanDate':
+                    return { ...prev, loanDate: new Date(value) };
+                case 'days':
+                    return { ...prev, days: Number(value) };
                 default:
                     return prev;
             }
         });
     };
 
-    // const onChangeHandlerCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const { id, value } = e.target;
-
-    //     setCategory(prev => {
-    //         switch (id) {
-    //             case 'id':
-    //                 return { ...prev, id: Number(value) };
-    //             case 'name':
-    //                 return { ...prev, name: value };
-    //             case 'detail':
-    //                 return { ...prev, detail: value };
-    //             default:
-    //                 return prev;
-    //         }
-    //     });
-    // };
-
     const onSubmitHandlerRental = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        let finalRental = rental;
+        let now = new Date();
+        finalRental.loanDate = now;
+        finalRental.returnDate = new Date(now.setDate(now.getDate()+finalRental.days!));
         await rentVideogame(rental);
         setRental({
             sequence: 0,
@@ -76,19 +65,23 @@ const RentalPage = () => {
             returnDate: new Date(),
             returnDetails: '',
         });
-        setVideogameList(await getAllVideogames());
+        alert('Se alquilo el juego');
     }
-    // const onSubmitHandlerCategory = async (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     await createCategory(category);
-    //     setCategory({
-    //         id: 0,
-    //         name: '',
-    //         detail: '',
-    //     });
-    //     alert('Categoria creada');
-    // }
-    const formatDate = (date: Date) => date.toISOString().slice(0, 10);
+
+    const onClickActiveRentals = async () => {
+        if(!clientId){
+            alert('Ingrese una cedula')
+            return
+        }
+        setRentalList(await getActiveRentals(clientId));
+    }
+    const onClickHistoricRentals = async () => {
+        if(!clientId){
+            alert('Ingrese una cedula')
+            return
+        }
+        setRentalList(await getRentHistory(clientId));
+    }
     return (
         <div className="min-h-screen bg-black flex flex-col">
             <main className="flex-1 px-6 py-8">
@@ -123,7 +116,6 @@ const RentalPage = () => {
                                 id="sequence"
                                 onChange={onChangeHandlerRental}
                                 required={true}
-                                value={rental.sequence}
                                 className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                             />
 
@@ -137,25 +129,24 @@ const RentalPage = () => {
                                     value={rental.clientId}
                                     className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                                 />
-                                <input
-                                    type="text"
-                                    placeholder="Id copia"
+
+                                <select
                                     id="copyId"
                                     onChange={onChangeHandlerRental}
                                     required={true}
-                                    value={rental.copyId}
+                                    value={rental.copyId ?? 0}
                                     className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
-                                />
+                                >
+                                    <option value={0} disabled>
+                                        Selecciona un videojuego
+                                    </option>
+                                    {videogameList.map(v => (
+                                        <option key={v.code} value={v.code}>
+                                            {v.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
-
-                            <input
-                                type="date"
-                                id="loanDate"
-                                onChange={onChangeHandlerRental}
-                                required
-                                value={formatDate(rental.loanDate)}
-                                className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
-                            />
 
                             <input
                                 type="text"
@@ -163,16 +154,6 @@ const RentalPage = () => {
                                 id="days"
                                 onChange={onChangeHandlerRental}
                                 required={true}
-                                value={rental.days}
-                                className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
-                            />
-
-                            <input
-                                type="date"
-                                id="returnDate"
-                                onChange={onChangeHandlerRental}
-                                required
-                                value={formatDate(rental.returnDate)}
                                 className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
                             />
 
@@ -186,86 +167,44 @@ const RentalPage = () => {
                     </div>
 
                     {/* TABLA */}
-                    <div className="rounded-3xl border border-purple-500/20 bg-purple-950/40 backdrop-blur-md p-6 shadow-2xl">
+                    <div className="rounded-3xl border border-purple-500/20 bg-purple-950/40 backdrop-blur-md p-6 shadow-2xl ">
 
                         <h3 className="text-2xl font-semibold text-white mb-6">
-                            Lista de Videojuegos
+                            Lista de Alquileres
                         </h3>
-
-                        <table className="w-full text-left">
-                            <thead className="bg-purple-800/40">
-                                <tr>
-                                    <th className="px-4 py-3 text-purple-100">Código</th>
-                                    <th className="px-4 py-3 text-purple-100">Nombre</th>
-                                    <th className="px-4 py-3 text-purple-100">Descripción</th>
-                                    <th className="px-4 py-3 text-purple-100">Desarrollador</th>
-                                    <th className="px-4 py-3 text-purple-100">Fecha de Lanzamiento</th>
-                                    <th className="px-4 py-3 text-purple-100">Categoría</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white">
-                                {/* {videogameList && videogameList.map(v => (
-                                    <tr key={v.code} className="text-black">
-                                        <td className="pl-3">{v.code}</td>
-                                        <td className="pl-3.5">{v.name}</td>
-                                        <td className="pl-3.5">{v.description}</td>
-                                        <td className="pl-3.5">{v.developer}</td>
-                                        <td className="pl-3.5">{new Date(v.releaseDate).toLocaleDateString()}</td>
-                                        <td className="pl-3.5">
-                                            {categoryList.find(cat => cat.id === v.categoryId)?.name || 'N/A'}
-                                        </td>
+                        <div className='flex flex-col justify-between h-full'>
+                            <table className="w-full text-left">
+                                <thead className="bg-purple-800/40">
+                                    <tr>
+                                        <th className="px-4 py-3 text-purple-100">Código</th>
+                                        <th className="px-4 py-3 text-purple-100">Id copia</th>
+                                        <th className="px-4 py-3 text-purple-100">Fecha de prestamo</th>
+                                        <th className="px-4 py-3 text-purple-100">Cantidad de dias</th>
+                                        <th className="px-4 py-3 text-purple-100">Fecha de retorno</th>
                                     </tr>
-                                ))} */}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody className="bg-white">
+                                    {rentalList && rentalList.map((r, index) => (
+                                        <tr key={index} className="text-black">
+                                            <td className="pl-3">{r.sequence}</td>
+                                            <td className="pl-3.5">{r.copyId}</td>
+                                            <td className="pl-3.5">{new Date(r.loanDate).toLocaleDateString()}</td>
+                                            <td className="pl-3.5">{r.days}</td>
+                                            <td className="pl-3.5">{new Date(r.returnDate).toLocaleDateString()}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            <div className='flex space-x-3 mb-12'>
+                                <input type="text" placeholder='Cedula' id="idClient" className='w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none' onChange={(e) => setClientId(e.target.value)} />
+                                <div className='flex space-x-2'>
+                                    <button type="button" className='w-full rounded-2xl bg-linear-to-r from-purple-700 to-purple-500 py-3 text-white font-semibold hover:scale-[1.02] transition' onClick={onClickActiveRentals}>Alquileres activos</button>
+                                    <button type="button" className='w-full rounded-2xl bg-linear-to-r from-purple-700 to-purple-500 py-3 text-white font-semibold hover:scale-[1.02] transition' onClick={onClickHistoricRentals}>Historico de alquileres</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div >
-                {/* <div className="rounded-3xl border border-purple-500/20 bg-purple-950/40 backdrop-blur-md p-6 shadow-2xl mt-10">
-
-                    <h3 className="text-2xl font-semibold text-white mb-6">
-                        Crear categoria
-                    </h3>
-
-                    <form className="space-y-5" onSubmit={onSubmitHandlerCategory}>
-
-                        <input
-                            type="number"
-                            placeholder="Codigo"
-                            id="id"
-                            onChange={onChangeHandlerCategory}
-                            required={true}
-                            value={category.id}
-                            className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
-                        />
-
-                        <div className="flex space-x-4">
-                            <input
-                                type="text"
-                                placeholder="Nombre"
-                                id="name"
-                                onChange={onChangeHandlerCategory}
-                                required={true}
-                                value={category.name}
-                                className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
-                            />
-                            <input
-                                type="text"
-                                placeholder="Descripcion"
-                                id="detail"
-                                onChange={onChangeHandlerCategory}
-                                required={true}
-                                value={category.detail}
-                                className="w-full rounded-2xl border border-purple-400/20 bg-black/40 px-4 py-3 text-white outline-none"
-                            />
-                        </div>
-                        <button
-                            type="submit"
-                            className="w-full rounded-2xl bg-linear-to-r from-purple-700 to-purple-500 py-3 text-white font-semibold hover:scale-[1.02] transition"
-                        >
-                            Crear Categoria
-                        </button>
-                    </form>
-                </div> */}
             </main >
         </div >
     );
