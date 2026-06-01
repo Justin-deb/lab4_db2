@@ -14,7 +14,7 @@ public class OfficeService {
     @Autowired
     OfficeRepository officeRepository;
 
-    public Office getOfficeById(Integer id){
+    public Office getOfficeById(Integer id) {
         return officeRepository.findById(id).orElseThrow();
     }
 
@@ -23,7 +23,7 @@ public class OfficeService {
         return officeRepository.getAllOfficesProcedure().get();
     }
 
-    public void createOffice(Office office) {
-        officeRepository.save(office);
+    public Office createOffice(Office office) {
+        return officeRepository.save(office);
     }
 }
